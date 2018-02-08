@@ -1,0 +1,87 @@
+# Copyright (C) 2018 SkyVerge
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Remove Product Sorting 1.1.0\n"
+"Report-Msgid-Bugs-To: "
+"https://github.com/skyverge/woocommerce-remove-product-sorting/issues\n"
+"POT-Creation-Date: 2018-02-08 05:35:35+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: woocommerce-remove-product-sorting.php:148
+#: woocommerce-remove-product-sorting.php:198
+msgid "Remove Product Sorting:"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:149
+#: woocommerce-remove-product-sorting.php:156
+#: woocommerce-remove-product-sorting.php:199
+msgid "Choose sorting options to remove from your shop."
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:220
+msgid "Default sorting (custom ordering + name)"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:221
+msgid "Popularity (sales)"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:222
+msgid "Average rating"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:223
+msgid "Sort by most recent"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:224
+msgid "Sort by price (asc)"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:225
+msgid "Sort by price (desc)"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:272
+#. translators: Placeholders: %s - plugin name
+msgid "You cannot clone instances of %s."
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:283
+#. translators: Placeholders: %s - plugin name
+msgid "You cannot unserialize instances of %s."
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:316
+msgid "Configure"
+msgstr ""
+
+#: woocommerce-remove-product-sorting.php:317
+msgid "FAQ"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Remove Product Sorting"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.skyverge.com/product/woocommerce-remove-product-sorting/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Remove core WooCommerce product sorting options"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "SkyVerge"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.skyverge.com/"
+msgstr ""
