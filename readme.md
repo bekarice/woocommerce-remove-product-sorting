@@ -4,7 +4,7 @@
  - Tested up to: 4.9.4
  - Requires WooCommerce at least: 2.6
  - Tested WooCommerce up to: 3.3.1
- - Stable Tag: 1.1.0
+ - Stable Tag: 1.1.1
  - License: GPLv3
  - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,7 +60,10 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 
 ### Changelog
 
-2018.02.10 - version 1.1.0
+2018.02.09 - version 1.1.1
+ * Fix - PHP warnings for themes that don't support WooCommerce product column and row settings
+
+2018.02.08 - version 1.1.0
  * Misc - Add support for WooCommerce 3.3
  
 2014.09.18 - version 1.0.0

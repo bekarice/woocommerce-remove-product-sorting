@@ -5,7 +5,7 @@
  * Description: Remove core WooCommerce product sorting options
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.1.0
+ * Version: 1.1.1
  * Text Domain: woocommerce-remove-product-sorting
  *
  * Copyright: (c) 2014-2018 SkyVerge, Inc. (info@skyverge.com)
@@ -46,7 +46,7 @@ add_action( 'plugins_loaded', 'wc_remove_product_sorting' );
 class WC_Remove_Product_Sorting {
 
 
-	const VERSION = '1.1.0';
+	const VERSION = '1.1.1';
 
 	/** @var \WC_Remove_Product_Sorting single instance of this plugin */
 	protected static $instance;
@@ -174,12 +174,17 @@ class WC_Remove_Product_Sorting {
 	public function add_settings( $wp_customize ) {
 
 		// load our custom control type
-		require_once( 'includes/class-wc-remove-sorting-customizer-checkbox-multiple.php' );
+		require_once( dirname( __FILE__ ) . '/includes/class-wc-remove-sorting-customizer-checkbox-multiple.php' );
 
 		// make sure we can insert our desired controls where we want them {BR 2018-02-10}
 		// this is heavy-handed, but WC core doesn't add priorities for us, shikata ga nai ¯\_(ツ)_/¯
-		$wp_customize->get_control( 'woocommerce_catalog_columns' )->priority = 15;
-		$wp_customize->get_control( 'woocommerce_catalog_rows' )->priority    = 15;
+		if ( $catalog_columns_control = $wp_customize->get_control( 'woocommerce_catalog_columns' ) ) {
+			$catalog_columns_control->priority = 15;
+		}
+
+		if ( $catalog_rows_control = $wp_customize->get_control( 'woocommerce_catalog_rows' ) ) {
+			$catalog_rows_control->priority    = 15;
+		}
 
 		$wp_customize->add_setting(
 			'wc_remove_product_sorting',
@@ -195,6 +200,7 @@ class WC_Remove_Product_Sorting {
 				$wp_customize,
 				'wc_remove_product_sorting',
 				array(
+					'type'        => 'checkbox-multiple',
 					'label'       => __( 'Remove Product Sorting:', 'woocommerce-remove-product-sorting' ),
 					'description' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-remove-product-sorting' ),
 					'section'     => 'woocommerce_product_catalog',
@@ -216,6 +222,7 @@ class WC_Remove_Product_Sorting {
 	protected function get_core_sorting_options() {
 
 		// the woocommerce text domain here is intentional
+		// we're also not filtering this given we probably don't need to remove *custom* sorting for people
 		return array(
 			'menu_order' => __( 'Default sorting (custom ordering + name)', 'woocommerce' ),
 			'popularity' => __( 'Popularity (sales)', 'woocommerce' ),

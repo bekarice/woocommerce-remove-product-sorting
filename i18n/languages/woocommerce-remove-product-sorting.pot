@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Remove Product Sorting 1.1.0\n"
+"Project-Id-Version: WooCommerce Remove Product Sorting 1.1.1\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/skyverge/woocommerce-remove-product-sorting/issues\n"
 "POT-Creation-Date: 2018-02-08 05:35:35+00:00\n"
@@ -13,56 +13,71 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
+#: build/woocommerce-remove-product-sorting.php:148
+#: build/woocommerce-remove-product-sorting.php:198
 #: woocommerce-remove-product-sorting.php:148
-#: woocommerce-remove-product-sorting.php:198
+#: woocommerce-remove-product-sorting.php:204
 msgid "Remove Product Sorting:"
 msgstr ""
 
+#: build/woocommerce-remove-product-sorting.php:149
+#: build/woocommerce-remove-product-sorting.php:156
+#: build/woocommerce-remove-product-sorting.php:199
 #: woocommerce-remove-product-sorting.php:149
 #: woocommerce-remove-product-sorting.php:156
-#: woocommerce-remove-product-sorting.php:199
+#: woocommerce-remove-product-sorting.php:205
 msgid "Choose sorting options to remove from your shop."
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:220
+#: build/woocommerce-remove-product-sorting.php:220
+#: woocommerce-remove-product-sorting.php:227
 msgid "Default sorting (custom ordering + name)"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:221
+#: build/woocommerce-remove-product-sorting.php:221
+#: woocommerce-remove-product-sorting.php:228
 msgid "Popularity (sales)"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:222
+#: build/woocommerce-remove-product-sorting.php:222
+#: woocommerce-remove-product-sorting.php:229
 msgid "Average rating"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:223
+#: build/woocommerce-remove-product-sorting.php:223
+#: woocommerce-remove-product-sorting.php:230
 msgid "Sort by most recent"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:224
+#: build/woocommerce-remove-product-sorting.php:224
+#: woocommerce-remove-product-sorting.php:231
 msgid "Sort by price (asc)"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:225
+#: build/woocommerce-remove-product-sorting.php:225
+#: woocommerce-remove-product-sorting.php:232
 msgid "Sort by price (desc)"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:272
+#: build/woocommerce-remove-product-sorting.php:272
+#: woocommerce-remove-product-sorting.php:279
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot clone instances of %s."
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:283
+#: build/woocommerce-remove-product-sorting.php:283
+#: woocommerce-remove-product-sorting.php:290
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot unserialize instances of %s."
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:316
+#: build/woocommerce-remove-product-sorting.php:316
+#: woocommerce-remove-product-sorting.php:323
 msgid "Configure"
 msgstr ""
 
-#: woocommerce-remove-product-sorting.php:317
+#: build/woocommerce-remove-product-sorting.php:317
+#: woocommerce-remove-product-sorting.php:324
 msgid "FAQ"
 msgstr ""
 
