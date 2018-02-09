@@ -196,7 +196,7 @@ class WC_Remove_Product_Sorting {
 				'wc_remove_product_sorting',
 				array(
 					'label'       => __( 'Remove Product Sorting:', 'woocommerce-remove-product-sorting' ),
-					'description' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-extra-product-sorting-options' ),
+					'description' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-remove-product-sorting' ),
 					'section'     => 'woocommerce_product_catalog',
 					'priority'    => 10,
 					'choices'     => $this->get_core_sorting_options(),
