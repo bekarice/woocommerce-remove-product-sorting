@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Remove Product Sorting 1.1.1\n"
+"Project-Id-Version: WooCommerce Remove Product Sorting 1.2.0\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/skyverge/woocommerce-remove-product-sorting/issues\n"
 "POT-Creation-Date: 2018-02-08 05:35:35+00:00\n"
@@ -13,76 +13,272 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: build/woocommerce-remove-product-sorting.php:148
-#: build/woocommerce-remove-product-sorting.php:198
-#: woocommerce-remove-product-sorting.php:148
-#: woocommerce-remove-product-sorting.php:204
+#: build/class-wc-remove-product-sorting.php:161
+#: build/class-wc-remove-product-sorting.php:217
+#: class-wc-remove-product-sorting.php:161
+#: class-wc-remove-product-sorting.php:217
 msgid "Remove Product Sorting:"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:149
-#: build/woocommerce-remove-product-sorting.php:156
-#: build/woocommerce-remove-product-sorting.php:199
-#: woocommerce-remove-product-sorting.php:149
-#: woocommerce-remove-product-sorting.php:156
-#: woocommerce-remove-product-sorting.php:205
+#: build/class-wc-remove-product-sorting.php:162
+#: build/class-wc-remove-product-sorting.php:169
+#: build/class-wc-remove-product-sorting.php:218
+#: class-wc-remove-product-sorting.php:162
+#: class-wc-remove-product-sorting.php:169
+#: class-wc-remove-product-sorting.php:218
 msgid "Choose sorting options to remove from your shop."
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:220
-#: woocommerce-remove-product-sorting.php:227
+#: build/class-wc-remove-product-sorting.php:282
+#: class-wc-remove-product-sorting.php:282
 msgid "Default sorting (custom ordering + name)"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:221
-#: woocommerce-remove-product-sorting.php:228
+#: build/class-wc-remove-product-sorting.php:283
+#: class-wc-remove-product-sorting.php:283
 msgid "Popularity (sales)"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:222
-#: woocommerce-remove-product-sorting.php:229
+#: build/class-wc-remove-product-sorting.php:284
+#: class-wc-remove-product-sorting.php:284
 msgid "Average rating"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:223
-#: woocommerce-remove-product-sorting.php:230
+#: build/class-wc-remove-product-sorting.php:285
+#: class-wc-remove-product-sorting.php:285
 msgid "Sort by most recent"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:224
-#: woocommerce-remove-product-sorting.php:231
+#: build/class-wc-remove-product-sorting.php:286
+#: class-wc-remove-product-sorting.php:286
 msgid "Sort by price (asc)"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:225
-#: woocommerce-remove-product-sorting.php:232
+#: build/class-wc-remove-product-sorting.php:287
+#: class-wc-remove-product-sorting.php:287
 msgid "Sort by price (desc)"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:272
-#: woocommerce-remove-product-sorting.php:279
+#: build/class-wc-remove-product-sorting.php:359
+#: class-wc-remove-product-sorting.php:359
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot clone instances of %s."
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:283
-#: woocommerce-remove-product-sorting.php:290
+#: build/class-wc-remove-product-sorting.php:370
+#: class-wc-remove-product-sorting.php:370
 #. translators: Placeholders: %s - plugin name
 msgid "You cannot unserialize instances of %s."
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:316
-#: woocommerce-remove-product-sorting.php:323
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Remove Product Sorting"
+msgstr ""
+
+#: build/class-wc-remove-product-sorting.php:464
+#: class-wc-remove-product-sorting.php:464
+msgid "License"
+msgstr ""
+
+#: build/class-wc-remove-product-sorting.php:464
+#: class-wc-remove-product-sorting.php:464
+msgid "Get updates"
+msgstr ""
+
+#: build/class-wc-remove-product-sorting.php:467
+#: class-wc-remove-product-sorting.php:467
 msgid "Configure"
 msgstr ""
 
-#: build/woocommerce-remove-product-sorting.php:317
-#: woocommerce-remove-product-sorting.php:324
+#: build/class-wc-remove-product-sorting.php:468
+#: class-wc-remove-product-sorting.php:468
 msgid "FAQ"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "WooCommerce Remove Product Sorting"
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:73
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:446
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:73
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:446
+msgid "WooCommerce"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:109
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:109
+msgid "There are no active SkyVerge plugins that require license keys."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:110
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:110
+msgid "View Plugins"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:116
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:116
+msgid "SkyVerge Plugin License Keys"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:117
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:117
+msgid "Enter your plugin license keys here to receive automatic updates."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:160
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:160
+msgid "Increase sales by 15% in 10 minutes or less!"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:161
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:161
+msgid "Jilt helps you recover lost sales with automated emails."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:165
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:165
+msgid "Get Jilt"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:258
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:258
+msgid "Your license key expired on %1$s. Please %2$srenew your license key%3$s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:269
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:269
+msgid ""
+"Your license key has been disabled. Please %1$scontact support%2$s for more "
+"information."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:279
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:279
+msgid "Invalid license. Please %1$svisit your account page%2$s and verify it."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:290
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:290
+msgid ""
+"Your %1$s is not active for this URL. Please %2$svisit your account "
+"page%3$s to manage your license key URLs."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:300
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:300
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:306
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:306
+msgid ""
+"Your license key has reached its activation limit. %1$sView possible "
+"upgrades%2$s now."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:312
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:312
+msgid ""
+"The key you entered belongs to a bundle, please use the product specific "
+"license key."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:318
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:318
+msgid "unknown_error"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:319
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:319
+msgid ""
+"There was an error with this license key: %1%s. Please %2$scontact our "
+"support team%3$s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:336
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:336
+msgid "License key never expires."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:342
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:342
+msgid ""
+"Your license key expires soon! It expires on %1$s. %2$sRenew your license "
+"key%3$s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:352
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:352
+msgid "Your license key expires on %s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:364
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:364
+msgid "To receive updates, please enter your valid %s license key."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:374
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:374
+msgid "Deactivate License"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:401
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:401
+msgid "SkyVerge Licenses"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license-settings.php:472
+#: lib/skyverge/updater/class-skyverge-plugin-license-settings.php:472
+msgid "Settings updated."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:206
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:206
+msgid "Once per week"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:239
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:239
+msgid "%1$s"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:342
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:342
+msgid "Nonce verification failed"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:342
+#: build/lib/skyverge/updater/class-skyverge-plugin-updater.php:432
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:342
+#: lib/skyverge/updater/class-skyverge-plugin-updater.php:432
+msgid "Error"
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:464
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:464
+#. translators: Placeholder: %1$s - <a>, %2$s - </a>
+msgid ""
+"You have invalid or expired license keys for SkyVerge Plugins. Please go to "
+"the %1$sLicenses page%2$s to correct this issue."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-license.php:495
+#: lib/skyverge/updater/class-skyverge-plugin-license.php:495
+msgid "Enter valid license key for automatic updates."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-updater.php:228
+#: lib/skyverge/updater/class-skyverge-plugin-updater.php:228
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-updater.php:238
+#: lib/skyverge/updater/class-skyverge-plugin-updater.php:238
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: build/lib/skyverge/updater/class-skyverge-plugin-updater.php:432
+#: lib/skyverge/updater/class-skyverge-plugin-updater.php:432
+msgid "You do not have permission to install plugin updates"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

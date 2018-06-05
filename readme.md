@@ -32,17 +32,20 @@ We've got a plugin for that, too. Check out the [WooCommerce Extra Product Sorti
 
 ### More Details
  - See the [product page](http://www.skyverge.com/product/woocommerce-remove-product-sorting/) for full details.
- - View more of SkyVerge's [free WooCommerce extensions](http://profiles.wordpress.org/skyverge/)
+ - View more of SkyVerge's [free WooCommerce extensions](https://www.skyverge.com/downloads/category/free/)
  - View all [SkyVerge WooCommerce extensions](http://www.skyverge.com/shop/)
 
 ### Installation
 
- 1. Be sure you're running WooCommerce 2.6+ in your shop.
- 2. Upload the entire `woocommerce-remove-product-sorting` folder to the `/wp-content/plugins/` directory, or upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**
- 3. Activate the plugin through the **Plugins** menu in WordPress
- 4. Go to **Appearance &gt; Customize &gt; WooCommerce** and click the "Product catalog" section. The new settings are added after "Default Product Sorting".
+**Important**: Do not install a zip of this repo as a plugin! You must bundle dependencies with composer if you do so using `$ composer install` to complete the build.
+
+ 1. Be sure you're running WooCommerce 2.6.14+ in your shop.
+ 1. Download the plugin zip from [SkyVerge.com](https://www.skyverge.com/product/woocommerce-remove-product-sorting/) (this also gives you a key for one-click updates)
+ 1. Upload the entire `woocommerce-remove-product-sorting` folder to the `/wp-content/plugins/` directory, or upload the .zip file with the plugin under **Plugins &gt; Add New &gt; Upload**
+ 1. Activate the plugin through the **Plugins** menu in WordPress
+ 1. Go to **Appearance &gt; Customize &gt; WooCommerce** and click the "Product catalog" section. The new settings are added after "Default Product Sorting".
     - If you use an older version of WooCommerce, you'll see setting under WooCommerce &gt; Settings &gt; Products &gt; Display
- 5. Select which options to remove and save your settings.
+ 1. Select which options to remove and save your settings.
 
 ### Frequently Asked Questions
 
@@ -60,7 +63,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 
 ### Changelog
 
-2018.nn.nn - version 1.2.0-dev
+2018.06.05 - version 1.2.0
  * Tweak - Remove the sorting dropdown if all sorting options are removed
  * Misc - Require PHP 5.3
  * Misc - Require WooCommerce 2.6.14
