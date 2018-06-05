@@ -15,6 +15,9 @@ module.exports = function( grunt ) {
 			'<%= dirs.build %>/node_modules',
 			'<%= dirs.build %>/wp-assets',
 			'<%= dirs.build %>/package.json',
+			'<%= dirs.build %>/package-lock.json',
+			'<%= dirs.build %>/composer.json',
+			'<%= dirs.build %>/composer.lock',
 			'<%= dirs.build %>/Gruntfile.js',
 
 			// Delete map files
