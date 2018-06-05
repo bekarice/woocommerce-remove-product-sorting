@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Remove Product Sorting Options
+ * WooCommerce Remove Product Sorting
  *
  * This source file is subject to the GNU General Public License v3.0
  * that is bundled with this package in the file license.txt.
@@ -18,11 +18,13 @@
  * Special thanks to Justin Tadlock for his guide here http://justintadlock.com/archives/2015/05/26/multiple-checkbox-customizer-control
  *  upon which this class is based.
  *
- * @package   WC-Remove-Sorting-Options/Classes
+ * @package   WC-Remove-Product-Sorting/Includes
  * @author    SkyVerge
  * @copyright Copyright (c) 2014-2018, SkyVerge, Inc.
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
  */
+
+namespace SkyVerge\WooCommerce\RemoveProductSorting;
 
 defined( 'ABSPATH' ) or exit;
 
@@ -31,7 +33,7 @@ defined( 'ABSPATH' ) or exit;
  *
  * @since 1.1.0
  */
-class WC_Remove_Sorting_Customize_Checkbox_Multiple extends WP_Customize_Control {
+class Customize_Checkbox_Multiple extends \WP_Customize_Control {
 
 
 	/**
@@ -41,7 +43,7 @@ class WC_Remove_Sorting_Customize_Checkbox_Multiple extends WP_Customize_Control
 	 */
 	public function enqueue() {
 
-		wp_enqueue_script( 'wc-remove-sorting-options-customize-controls', trailingslashit( wc_remove_product_sorting()->get_plugin_url() ) . 'assets/js/customize-controls.js', array( 'jquery' ), WC_Remove_Product_Sorting::VERSION, true );
+		wp_enqueue_script( 'wc-remove-sorting-options-customize-controls', trailingslashit( wc_remove_product_sorting()->get_plugin_url() ) . 'assets/js/customize-controls.js', array( 'jquery' ), wc_remove_product_sorting()->get_version(), true );
 	}
 
 

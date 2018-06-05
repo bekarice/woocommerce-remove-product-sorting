@@ -2,7 +2,7 @@
 Author: skyverge
 Tags: woocommerce, sorting
 Requires at least: 4.4
-Tested up to: 4.9.4
+Tested up to: 4.9.6
 
 Adds the ability to remove core WooCommerce sorting options from your shop.
 

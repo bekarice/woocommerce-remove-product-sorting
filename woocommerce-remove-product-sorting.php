@@ -5,7 +5,7 @@
  * Description: Remove core WooCommerce product sorting options
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.2.0-dev
+ * Version: 1.2.0
  * Text Domain: woocommerce-remove-product-sorting
  *
  * Copyright: (c) 2014-2018 SkyVerge, Inc. (info@skyverge.com)
@@ -18,302 +18,295 @@
  * @category  Admin
  * @copyright Copyright (c) 2014-2018, SkyVerge, Inc.
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
+ *
+ * WC requires at least: 2.6.14
+ * WC tested up to: 3.4.0
  */
 
 defined( 'ABSPATH' ) or exit;
 
 /**
- * Plugin Description
+ * The plugin loader class.
  *
- * Remove the selected default WooCommerce sorting options
+ * @since 1.2.0
  */
-
-// Check if WooCommerce is active
-if ( ! WC_Remove_Product_Sorting::is_woocommerce_active() ) {
-	return;
-}
-
-// Make sure we're loaded after WC and fire it up!
-add_action( 'plugins_loaded', 'wc_remove_product_sorting' );
-
-/**
- * Class \WC_Remove_Product_Sorting
- * Sets up the main plugin class.
- *
- * @since 1.1.0
- */
-
-class WC_Remove_Product_Sorting {
+class WC_Remove_Product_Sorting_Loader {
 
 
-	const VERSION = '1.2.0-dev';
+	/** minimum PHP version required by this plugin */
+	const MINIMUM_PHP_VERSION = '5.3.0';
 
-	/** @var \WC_Remove_Product_Sorting single instance of this plugin */
+	/** minimum WordPress version required by this plugin */
+	const MINIMUM_WP_VERSION = '4.4';
+
+	/** minimum WooCommerce version required by this plugin */
+	const MINIMUM_WC_VERSION = '2.6.14';
+
+	/** the plugin name, for displaying notices */
+	const PLUGIN_NAME = 'WooCommerce Remove Product Sorting';
+
+	/** @var WC_Remove_Product_Sorting_Loader single instance of this plugin */
 	protected static $instance;
+
+	/** @var array the admin notices to add */
+	protected $notices = array();
 
 
 	/**
-	 * WC_Remove_Product_Sorting constructor. Initializes the plugin.
+	 * WC_Remove_Product_Sorting_Loader constructor.
 	 *
-	 * @since 1.1.0
+	 * @since 1.2.0
 	 */
 	public function __construct() {
 
-		// load translations
-		add_action( 'init', array( $this, 'load_translation' ) );
+		register_activation_hook( __FILE__, array( $this, 'activation_check' ) );
 
-		// modify sorting options
-		add_filter( 'woocommerce_default_catalog_orderby_options', array( $this, 'remove_sorting_from_settings' ) );
-		add_filter( 'woocommerce_catalog_orderby', array( $this, 'remove_frontend_sorting_option' ) );
+		add_action( 'admin_init', array( $this, 'check_environment' ) );
+		add_action( 'admin_init', array( $this, 'add_plugin_notices' ) );
 
-		// add settings to product display settings
-		if ( self::is_wc_gte( '3.3' ) ) {
-			add_action( 'customize_register', array( $this, 'add_settings' ) );
-		} else {
-			add_filter( 'woocommerce_product_settings', array( $this, 'legacy_add_settings' ) );
-		}
+		add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
 
-		// unhook the sorting dropdown completely if there are no options
-		add_action( 'wp', array( $this, 'maybe_remove_catalog_orderby' ), 99 );
-
-		if ( is_admin() && ! is_ajax() ) {
-
-			// add plugin links
-			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
-
-			$this->install();
-		}
-	}
-
-
-	/** Plugin methods ******************************************************/
-
-
-	/**
-	 * Removes sorting option from the Product Settings
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param array $options the settings options
-	 * @return array updated options
-	 */
-	public function remove_sorting_from_settings( $options ) {
-
-		foreach( $this->get_removed_sorting_options() as $remove ) {
-			unset( $options[ $remove ] );
-		}
-
-		return $options;
-	}
-
-
-	/**
-	 * Removes sorting option from the shop template
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param array $orderby the orderby options
-	 * @return array updated options
-	 */
-	public function remove_frontend_sorting_option( $orderby ) {
-
-		foreach( $this->get_removed_sorting_options() as $remove ) {
-			unset( $orderby[ $remove ] );
-		}
-
-		return $orderby;
-	}
-
-
-	/**
-	 * Add Settings to WooCommerce Settings > Products page after "Default Product Sorting" setting
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param array $settings the settings options
-	 * @return array updated settings
-	 */
-	public function legacy_add_settings( $settings ) {
-
-		$updated_settings = array();
-
-		foreach ( $settings as $setting ) {
-
-			$updated_settings[] = $setting;
-
-			if ( isset( $setting['id'] ) && 'woocommerce_default_catalog_orderby' === $setting['id'] ) {
-
-				$updated_settings[] = array(
-					'name'     => __( 'Remove Product Sorting:', 'woocommerce-remove-product-sorting' ),
-					'desc_tip' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-remove-product-sorting' ),
-					'id'       => 'wc_remove_product_sorting',
-					'type'     => 'multiselect',
-					'class'    => 'chosen_select wc_enhanced_select',
-					'default'  => '',
-					'options'  => $this->get_core_sorting_options(),
-					'custom_attributes' => array(
-						'data-placeholder' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-remove-product-sorting' ),
-					),
-				);
-
-			}
-		}
-
-		return $updated_settings;
-	}
-
-
-	/**
-	 * Add Settings to WooCommerce Settings > Products page after "Default Product Sorting" setting.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param \WP_Customize_Manager $wp_customize
-	 */
-	public function add_settings( $wp_customize ) {
-
-		// load our custom control type
-		require_once( dirname( __FILE__ ) . '/includes/class-wc-remove-sorting-customizer-checkbox-multiple.php' );
-
-		// make sure we can insert our desired controls where we want them {BR 2018-02-10}
-		// this is heavy-handed, but WC core doesn't add priorities for us, shikata ga nai ¯\_(ツ)_/¯
-		if ( $catalog_columns_control = $wp_customize->get_control( 'woocommerce_catalog_columns' ) ) {
-			$catalog_columns_control->priority = 15;
-		}
-
-		if ( $catalog_rows_control = $wp_customize->get_control( 'woocommerce_catalog_rows' ) ) {
-			$catalog_rows_control->priority = 15;
-		}
-
-		$wp_customize->add_setting(
-			'wc_remove_product_sorting',
-			array(
-				'default'           => array(),
-				'capability'        => 'manage_woocommerce',
-				'sanitize_callback' => array( $this, 'sanitize_option_list' ),
-			)
-		);
-
-		$wp_customize->add_control(
-			new WC_Remove_Sorting_Customize_Checkbox_Multiple(
-				$wp_customize,
-				'wc_remove_product_sorting',
-				array(
-					'type'        => 'checkbox-multiple',
-					'label'       => __( 'Remove Product Sorting:', 'woocommerce-remove-product-sorting' ),
-					'description' => __( 'Choose sorting options to remove from your shop.', 'woocommerce-remove-product-sorting' ),
-					'section'     => 'woocommerce_product_catalog',
-					'priority'    => 10,
-					'choices'     => $this->get_core_sorting_options(),
-				)
-			)
-		);
-	}
-
-
-	/**
-	 * Unhooks the sorting dropdown if all options have been removed.
-	 *
-	 * @since 1.2.0-dev
-	 */
-	public function maybe_remove_catalog_orderby() {
-
-		$enabled              = array_diff( array_keys( $this->get_core_sorting_options() ), array_values( $this->get_removed_sorting_options() ) );
-		$active_plugins       = (array) get_option( 'active_plugins', array() );
-		$extra_sorting_plugin = 'woocommerce-extra-product-sorting-options/woocommerce-extra-product-sorting-options.php';
-
-		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
-		}
-
-		// check for our extra sorting options plugin, just in case there are custom options added, too
-		if ( in_array( $extra_sorting_plugin, $active_plugins ) || array_key_exists( $extra_sorting_plugin, $active_plugins ) ) {
-
-			$extra_sorting = self::is_wc_gte( '3.3' ) ? get_theme_mod( 'wc_extra_product_sorting_options', array() ) : get_option( 'wc_extra_product_sorting_options', array() );
-			$enabled       = array_merge( $enabled, $extra_sorting );
-		}
-
-
-		/**
-		 * Filters whether the sorting dropdown should be unhooked from the shop page when there are no core sorting options.
-		 *
-		 * @since 1.2.0-dev
-		 *
-		 * @param bool $remove true if the dropdown should be removed
-		 */
-		if ( empty( $enabled ) && apply_filters( 'wc_remove_sorting_options_hide_dropdown', true ) ) {
-
-			// WC core output
-			remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
-
-			// Storefront theme
-			remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 10 );
-			remove_action( 'woocommerce_after_shop_loop',  'woocommerce_catalog_ordering', 10 );
+		// if the environment check passes, initialize the plugin
+		if ( $this->is_environment_compatible() ) {
+			add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
 		}
 	}
 
 
 	/**
-	 * Helper to get WooCommerce core sorting options.
+	 * Cloning instances is forbidden due to singleton pattern.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @return string[]
+	 * @since 1.2.0
 	 */
-	protected function get_core_sorting_options() {
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, sprintf( 'You cannot clone instances of %s.', get_class( $this ) ), '1.2.0' );
+	}
 
-		// the woocommerce text domain here is intentional
-		// we're also not filtering this given we probably don't need to remove *custom* sorting for people
-		return array(
-			'menu_order' => __( 'Default sorting (custom ordering + name)', 'woocommerce' ),
-			'popularity' => __( 'Popularity (sales)', 'woocommerce' ),
-			'rating'     => __( 'Average rating', 'woocommerce' ),
-			'date'       => __( 'Sort by most recent', 'woocommerce' ),
-			'price'      => __( 'Sort by price (asc)', 'woocommerce' ),
-			'price-desc' => __( 'Sort by price (desc)', 'woocommerce' ),
+
+	/**
+	 * Unserializing instances is forbidden due to singleton pattern.
+	 *
+	 * @since 1.2.0
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, sprintf( 'You cannot unserialize instances of %s.', get_class( $this ) ), '1.0.0' );
+	}
+
+
+	/**
+	 * Initializes the plugin.
+	 *
+	 * @since 1.2.0
+	 */
+	public function init_plugin() {
+
+		if ( ! $this->plugins_compatible() ) {
+			return;
+		}
+
+		// load the functions file
+		require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
+
+		// load the main plugin class
+		require_once( plugin_dir_path( __FILE__ ) . 'class-wc-remove-product-sorting.php' );
+
+		// fire it up!
+		wc_remove_product_sorting();
+	}
+
+
+	/**
+	 * Checks the server environment and other factors and deactivates plugins as necessary.
+	 *
+	 * Based on http://wptavern.com/how-to-prevent-wordpress-plugins-from-activating-on-sites-with-incompatible-hosting-environments
+	 *
+	 * @since 1.2.0
+	 */
+	public function activation_check() {
+
+		if ( ! $this->is_environment_compatible() ) {
+
+			$this->deactivate_plugin();
+			wp_die( self::PLUGIN_NAME . ' could not be activated. ' . $this->get_environment_message() );
+		}
+	}
+
+
+	/**
+	 * Checks the environment on loading WordPress, just in case the environment changes after activation.
+	 *
+	 * @since 1.2.0
+	 */
+	public function check_environment() {
+
+		if ( ! $this->is_environment_compatible() && is_plugin_active( plugin_basename( __FILE__ ) ) ) {
+
+			$this->deactivate_plugin();
+			$this->add_admin_notice( 'bad_environment', 'error', self::PLUGIN_NAME . ' has been deactivated. ' . $this->get_environment_message() );
+		}
+	}
+
+
+	/**
+	 * Adds notices for out-of-date WordPress, WooCommerce, and / or Memberships versions.
+	 *
+	 * @since 1.2.0
+	 */
+	public function add_plugin_notices() {
+
+		if ( ! $this->is_wp_compatible() ) {
+
+			$this->add_admin_notice( 'update_wordpress', 'error', sprintf(
+				'%s is not active, as it requires WordPress version %s or higher. Please %supdate WordPress &raquo;%s',
+				'<strong>' . self::PLUGIN_NAME . '</strong>',
+				self::MINIMUM_WP_VERSION,
+				'<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">', '</a>'
+			) );
+		}
+
+		if ( ! $this->is_wc_compatible() ) {
+
+			$this->add_admin_notice( 'update_woocommerce', 'error', sprintf(
+				'%s is not active, as it requires WooCommerce version %s or higher. Please %supdate WooCommerce &raquo;%s',
+				'<strong>' . self::PLUGIN_NAME . '</strong>',
+				self::MINIMUM_WC_VERSION,
+				'<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">', '</a>'
+			) );
+		}
+	}
+
+
+	/**
+	 * Determines if the required plugins are compatible.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	protected function plugins_compatible() {
+		return $this->is_wp_compatible() && $this->is_wc_compatible();
+	}
+
+
+	/**
+	 * Determines if the WordPress version is compatible.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	protected function is_wp_compatible() {
+
+		if ( ! self::MINIMUM_WP_VERSION ) {
+			return true;
+		}
+
+		return version_compare( get_bloginfo( 'version' ), self::MINIMUM_WP_VERSION, '>=' );
+	}
+
+
+	/**
+	 * Determines if the WooCommerce version is compatible.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	protected function is_wc_compatible() {
+
+		if ( ! self::MINIMUM_WC_VERSION ) {
+			return true;
+		}
+
+		return defined( 'WC_VERSION' ) && version_compare( WC_VERSION, self::MINIMUM_WC_VERSION, '>=' );
+	}
+
+
+	/**
+	 * Deactivates the plugin.
+	 *
+	 * @since 1.2.0
+	 */
+	protected function deactivate_plugin() {
+
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	}
+
+
+	/**
+	 * Adds an admin notice to be displayed.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $slug message slug
+	 * @param string $class CSS classes
+	 * @param string $message notice message
+	 */
+	public function add_admin_notice( $slug, $class, $message ) {
+
+		$this->notices[ $slug ] = array(
+			'class'   => $class,
+			'message' => $message
 		);
 	}
 
 
 	/**
-	 * Sanitize the default sorting callback.
+	 * Displays any admin notices added with \WC_Remove_Product_Sorting_Loader::add_admin_notice()
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param string[] $values the option value
-	 * @return string[]
+	 * @since 1.2.0
 	 */
-	public function sanitize_option_list( $values ) {
+	public function admin_notices() {
 
-		$multi_values = ! is_array( $values ) ? explode( ',', $values ) : $values;
+		foreach ( (array) $this->notices as $notice_key => $notice ) {
 
-		return ! empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
+			echo "<div class='" . esc_attr( $notice['class'] ) . "'><p>";
+			echo wp_kses( $notice['message'], array( 'a' => array( 'href' => array() ) ) );
+			echo "</p></div>";
+		}
 	}
 
 
 	/**
-	 * Gets the sorting options that should be removed.
+	 * Determines if the server environment is compatible with this plugin.
 	 *
-	 * @since 1.2.0-dev
+	 * Override this method to add checks for more than just the PHP version.
 	 *
-	 * @return array options removed
+	 * @since 1.2.0
+	 *
+	 * @return bool
 	 */
-	private function get_removed_sorting_options() {
-
-		return self::is_wc_gte( '3.3' ) ? get_theme_mod('wc_remove_product_sorting', array() ) : get_option( 'wc_remove_product_sorting', array() );
+	protected function is_environment_compatible() {
+		return version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '>=' );
 	}
 
 
-	/** Helper methods ******************************************************/
+	/**
+	 * Gets the message for display when the environment is incompatible with this plugin.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string
+	 */
+	protected function get_environment_message() {
+
+		$message = sprintf( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', self::MINIMUM_PHP_VERSION, PHP_VERSION );
+		return $message;
+	}
 
 
 	/**
-	 * Main Remove Sorting Instance, ensures only one instance is/can be loaded.
+	 * Gets the main \WC_Remove_Product_Sorting_Loader instance.
 	 *
-	 * @since 1.1.0
-	 * @see wc_remove_product_sorting()
+	 * Ensures only one instance can be loaded.
 	 *
-	 * @return WC_Remove_Product_Sorting
+	 * @since 1.2.0
+	 *
+	 * @return \WC_Remove_Product_Sorting_Loader
 	 */
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
@@ -323,165 +316,8 @@ class WC_Remove_Product_Sorting {
 	}
 
 
-	/**
-	 * Cloning instances is forbidden due to singleton pattern.
-	 *
-	 * @since 1.1.0
-	 */
-	public function __clone() {
-		/* translators: Placeholders: %s - plugin name */
-		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot clone instances of %s.', 'woocommerce-remove-product-sorting' ), 'WooCommerce Remove Product Sorting' ), '1.1.0' );
-	}
-
-
-	/**
-	 * Unserializing instances is forbidden due to singleton pattern.
-	 *
-	 * @since 1.1.0
-	 */
-	public function __wakeup() {
-		/* translators: Placeholders: %s - plugin name */
-		_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'You cannot unserialize instances of %s.', 'woocommerce-remove-product-sorting' ), 'WooCommerce Remove Product Sorting' ), '1.1.0' );
-	}
-
-
-	/**
-	 * Helper to get the plugin URL.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return string the plugin URL
-	 */
-	public function get_plugin_url() {
-		return untrailingslashit( plugins_url( '/', __FILE__ ) );
-	}
-
-
-	/**
-	 * Adds plugin page links.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param array $links all plugin links
-	 * @return array $links all plugin links + our custom links (i.e., "Settings")
-	 */
-	public function add_plugin_links( $links ) {
-
-		if ( self::is_wc_gte( '3.3' ) ) {
-			$configure_url = admin_url( 'customize.php?url=' . wc_get_page_permalink( 'shop' ) . '&autofocus[section]=woocommerce_product_catalog' );
-		} else {
-			$configure_url = admin_url( 'admin.php?page=wc-settings&tab=products&section=display' );
-		}
-
-		$plugin_links = array(
-			'<a href="' . esc_url( $configure_url ) . '">' . __( 'Configure', 'woocommerce-extra-product-sorting-options' ) . '</a>',
-			'<a href="http://www.skyverge.com/product/woocommerce-remove-product-sorting/">'. __( 'FAQ', 'woocommerce-extra-product-sorting-options' ) . '</a>',
-		);
-
-		return array_merge( $plugin_links, $links );
-	}
-
-
-	/**
-	 * Load Translations
-	 *
-	 * @since 1.1.0
-	 */
-	public function load_translation() {
-		// localization
-		load_plugin_textdomain( 'woocommerce-remove-product-sorting', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages' );
-	}
-
-
-	/**
-	 * Checks if WooCommerce is active.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return bool true if WooCommerce is active, false otherwise
-	 */
-	public static function is_woocommerce_active() {
-
-		$active_plugins = (array) get_option( 'active_plugins', array() );
-
-		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
-		}
-
-		return in_array( 'woocommerce/woocommerce.php', $active_plugins ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
-	}
-
-
-	/**
-	 * Checks if WooCommerce is greater than a specific version.
-	 *
-	 * @internal
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param string $version version number
-	 * @return bool true if > version
-	 */
-	public static function is_wc_gte( $version ) {
-		return defined( 'WC_VERSION' ) && WC_VERSION && version_compare( WC_VERSION, $version, '>=' );
-	}
-
-
-	/** Lifecycle methods ******************************************************/
-
-
-	/**
-	 * Run every time.  Used since the activation hook is not executed when updating a plugin.
-	 *
-	 * @since 2.0.0
-	 */
-	private function install() {
-
-		// get current version to check for upgrade
-		$installed_version = get_option( 'wc_remove_product_sorting_version' );
-
-		// force upgrade to 1.1.0, prior versions did not have version option set
-		if ( ! $installed_version && ! get_option( 'wc_remove_product_sorting_version' ) ) {
-			$this->upgrade( '1.1.0' );
-		}
-
-		// upgrade if installed version lower than plugin version
-		if ( -1 === version_compare( $installed_version, self::VERSION ) ) {
-			$this->upgrade( $installed_version );
-		}
-
-	}
-
-
-	/**
-	 * Perform any version-related changes.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param string $installed_version the currently installed version of the plugin
-	 */
-	private function upgrade( $installed_version ) {
-
-		// upgrade to 1.1.0; migrate option to theme mod
-		if ( '1.1.0' === $installed_version ) {
-			set_theme_mod( 'wc_remove_product_sorting', get_option( 'wc_remove_product_sorting', array() ) );
-		}
-
-		// update the installed version option
-		update_option( 'wc_remove_product_sorting_version', self::VERSION );
-	}
-
-
 }
 
 
-/**
- * Returns the One True Instance of WC Remove Sorting.
- *
- * @since 1.1.0
- *
- * @return WC_Remove_Product_Sorting
- */
-function wc_remove_product_sorting() {
-	return WC_Remove_Product_Sorting::instance();
-}
+// fire it up!
+WC_Remove_Product_Sorting_Loader::instance();

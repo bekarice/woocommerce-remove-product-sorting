@@ -1,10 +1,10 @@
 ## WooCommerce Remove Product Sorting
  - Use this plugin on your site? [Make a donation!](https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@skyverge.com&item_name=Donation+for+WooCommerce+Remove+Product+Sorting) 
  - Requires WordPress at least: 4.4
- - Tested up to: 4.9.4
- - Requires WooCommerce at least: 2.6
- - Tested WooCommerce up to: 3.3.1
- - Stable Tag: 1.2.0-dev
+ - Tested up to: 4.9.6
+ - Requires WooCommerce at least: 2.6.14
+ - Tested WooCommerce up to: 3.4.2
+ - Stable Tag: 1.2.0
  - License: GPLv3
  - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ Remove any core WooCommerce product sorting option from the shop template and ad
 
 WooCommerce Remove Product Sorting Options lets you select which WooCommerce sorting options you'd like to remove from your shop, such as the "Sort by popularity" option.
 
-> **Requires: WooCommerce 2.6+**, Compatible with WooCommerce 3.3+
+> **Requires: WooCommerce 2.6.14+**, Compatible with WooCommerce 3.4+
 
 ### Features
 Lets you remove one or more of the core WooCommerce sorting options.
@@ -62,6 +62,8 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 
 2018.nn.nn - version 1.2.0-dev
  * Tweak - Remove the sorting dropdown if all sorting options are removed
+ * Misc - Require PHP 5.3
+ * Misc - Require WooCommerce 2.6.14
 
 2018.02.09 - version 1.1.1
  * Fix - PHP warnings for themes that don't support WooCommerce product column and row settings
