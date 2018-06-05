@@ -4,7 +4,7 @@
  - Tested up to: 4.9.4
  - Requires WooCommerce at least: 2.6
  - Tested WooCommerce up to: 3.3.1
- - Stable Tag: 1.1.1
+ - Stable Tag: 1.2.0-dev
  - License: GPLv3
  - License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,6 +59,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/bekarice/wooc
 2. Sorting options on the shop page with some removed
 
 ### Changelog
+
+2018.nn.nn - version 1.2.0-dev
+ * Tweak - Remove the sorting dropdown if all sorting options are removed
 
 2018.02.09 - version 1.1.1
  * Fix - PHP warnings for themes that don't support WooCommerce product column and row settings

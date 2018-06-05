@@ -5,7 +5,7 @@
  * Description: Remove core WooCommerce product sorting options
  * Author: SkyVerge
  * Author URI: http://www.skyverge.com/
- * Version: 1.1.1
+ * Version: 1.2.0-dev
  * Text Domain: woocommerce-remove-product-sorting
  *
  * Copyright: (c) 2014-2018 SkyVerge, Inc. (info@skyverge.com)
@@ -46,7 +46,7 @@ add_action( 'plugins_loaded', 'wc_remove_product_sorting' );
 class WC_Remove_Product_Sorting {
 
 
-	const VERSION = '1.1.1';
+	const VERSION = '1.2.0-dev';
 
 	/** @var \WC_Remove_Product_Sorting single instance of this plugin */
 	protected static $instance;
@@ -73,6 +73,9 @@ class WC_Remove_Product_Sorting {
 			add_filter( 'woocommerce_product_settings', array( $this, 'legacy_add_settings' ) );
 		}
 
+		// unhook the sorting dropdown completely if there are no options
+		add_action( 'wp', array( $this, 'maybe_remove_catalog_orderby' ), 99 );
+
 		if ( is_admin() && ! is_ajax() ) {
 
 			// add plugin links
@@ -91,14 +94,12 @@ class WC_Remove_Product_Sorting {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string[] $options the settings options
-	 * @return string[] updated options
+	 * @param array $options the settings options
+	 * @return array updated options
 	 */
 	public function remove_sorting_from_settings( $options ) {
 
-		$remove_sorting = self::is_wc_gte( '3.3' ) ? get_theme_mod('wc_remove_product_sorting', array() ) : get_option( 'wc_remove_product_sorting', array() );
-
-		foreach( $remove_sorting as $remove ) {
+		foreach( $this->get_removed_sorting_options() as $remove ) {
 			unset( $options[ $remove ] );
 		}
 
@@ -111,14 +112,12 @@ class WC_Remove_Product_Sorting {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string[] $orderby the orderby options
-	 * @return string[] updated options
+	 * @param array $orderby the orderby options
+	 * @return array updated options
 	 */
 	public function remove_frontend_sorting_option( $orderby ) {
 
-		$remove_options = self::is_wc_gte( '3.3' ) ? get_theme_mod('wc_remove_product_sorting', array() ) : get_option( 'wc_remove_product_sorting', array() );
-
-		foreach( $remove_options as $remove ) {
+		foreach( $this->get_removed_sorting_options() as $remove ) {
 			unset( $orderby[ $remove ] );
 		}
 
@@ -131,8 +130,8 @@ class WC_Remove_Product_Sorting {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string[] $settings the settings options
-	 * @return string[] updated settings
+	 * @param array $settings the settings options
+	 * @return array updated settings
 	 */
 	public function legacy_add_settings( $settings ) {
 
@@ -183,7 +182,7 @@ class WC_Remove_Product_Sorting {
 		}
 
 		if ( $catalog_rows_control = $wp_customize->get_control( 'woocommerce_catalog_rows' ) ) {
-			$catalog_rows_control->priority    = 15;
+			$catalog_rows_control->priority = 15;
 		}
 
 		$wp_customize->add_setting(
@@ -209,6 +208,48 @@ class WC_Remove_Product_Sorting {
 				)
 			)
 		);
+	}
+
+
+	/**
+	 * Unhooks the sorting dropdown if all options have been removed.
+	 *
+	 * @since 1.2.0-dev
+	 */
+	public function maybe_remove_catalog_orderby() {
+
+		$enabled              = array_diff( array_keys( $this->get_core_sorting_options() ), array_values( $this->get_removed_sorting_options() ) );
+		$active_plugins       = (array) get_option( 'active_plugins', array() );
+		$extra_sorting_plugin = 'woocommerce-extra-product-sorting-options/woocommerce-extra-product-sorting-options.php';
+
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+		}
+
+		// check for our extra sorting options plugin, just in case there are custom options added, too
+		if ( in_array( $extra_sorting_plugin, $active_plugins ) || array_key_exists( $extra_sorting_plugin, $active_plugins ) ) {
+
+			$extra_sorting = self::is_wc_gte( '3.3' ) ? get_theme_mod( 'wc_extra_product_sorting_options', array() ) : get_option( 'wc_extra_product_sorting_options', array() );
+			$enabled       = array_merge( $enabled, $extra_sorting );
+		}
+
+
+		/**
+		 * Filters whether the sorting dropdown should be unhooked from the shop page when there are no core sorting options.
+		 *
+		 * @since 1.2.0-dev
+		 *
+		 * @param bool $remove true if the dropdown should be removed
+		 */
+		if ( empty( $enabled ) && apply_filters( 'wc_remove_sorting_options_hide_dropdown', true ) ) {
+
+			// WC core output
+			remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+
+			// Storefront theme
+			remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 10 );
+			remove_action( 'woocommerce_after_shop_loop',  'woocommerce_catalog_ordering', 10 );
+		}
 	}
 
 
@@ -247,6 +288,19 @@ class WC_Remove_Product_Sorting {
 		$multi_values = ! is_array( $values ) ? explode( ',', $values ) : $values;
 
 		return ! empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
+	}
+
+
+	/**
+	 * Gets the sorting options that should be removed.
+	 *
+	 * @since 1.2.0-dev
+	 *
+	 * @return array options removed
+	 */
+	private function get_removed_sorting_options() {
+
+		return self::is_wc_gte( '3.3' ) ? get_theme_mod('wc_remove_product_sorting', array() ) : get_option( 'wc_remove_product_sorting', array() );
 	}
 
 
